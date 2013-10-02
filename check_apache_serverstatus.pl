@@ -147,7 +147,7 @@ if($percent_free < $warning){
 
 # finally deal with too many Rs
 if($percent_r > $r_warning){
-    print 'WARNING - '.$percent_r.'% of slots in R state ('.$stats->{'R'}." slots) - potential slowloris attack! (${percent_free}% = $total_free slots out of $total_slots slots free)\n";
+    print 'WARNING - '.$percent_r.'% of slots in R state ('.$stats->{'R'}." slots) - potential slowloris attack! (${percent_free}% = $total_free out of $total_slots slots free)\n";
     exit 1;
 }
 
