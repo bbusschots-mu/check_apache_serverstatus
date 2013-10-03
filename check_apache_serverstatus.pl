@@ -16,7 +16,7 @@ use Math::Round; # for rounding percentages to 2 decimal places
 my %flags; # a hashref to store the arguments in
 $Getopt::Std::STANDARD_HELP_VERSION = 1;
 sub VERSION_MESSAGE {
-    print "check_yum_relevant.pl version 0.1 (released May 2012)\n";
+    print "check_apache_serverstatus.pl version 0.1 (released October 2013)\n";
     return;
 }
 sub HELP_MESSAGE{
