@@ -123,7 +123,7 @@ my $total_free = $stats->{'_'} + $stats->{q{.}};
 my $percent_free = nearest(0.01, $total_free/$total_slots * 100);
 my $percent_r    = nearest(0.01, $stats->{'R'}/$total_slots * 100);
 
-my $performance_data = " | free_slots_percentage=${percent_free}%, r_slots_percentage=${percent_r}%";
+my $performance_data = " | free_slots_percentage=${percent_free}%;${warning};${critical}, r_slots_percentage=${percent_r}%;${r_warning}";
 
 # first deal with the critical state
 if($percent_free < $critical){
