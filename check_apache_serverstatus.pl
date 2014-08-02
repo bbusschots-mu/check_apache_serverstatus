@@ -123,13 +123,15 @@ my $total_free = $stats->{'_'} + $stats->{q{.}};
 my $percent_free = nearest(0.01, $total_free/$total_slots * 100);
 my $percent_r    = nearest(0.01, $stats->{'R'}/$total_slots * 100);
 
+my $performance_data = " | free_slots_percentage=${percent_free}%, r_slots_percentage=${percent_r}%";
+
 # first deal with the critical state
 if($percent_free < $critical){
     my $out = "CRITICAL - only ${percent_free}% ($total_free) of $total_slots slots free (";
     if($percent_r > $r_warning){
         $out .= 'WARNING - '
     }
-    $out .= $stats->{'R'}." in R state)\n";
+    $out .= $stats->{'R'}." in R state) ${performance_data}\n";
     print $out;
     exit 2;
 }
@@ -140,17 +142,17 @@ if($percent_free < $warning){
     if($percent_r > $r_warning){
         $out .= 'WARNING - '
     }
-    $out .= $stats->{'R'}." in R state)\n";
+    $out .= $stats->{'R'}." in R state) ${performance_data}\n";
     print $out;
     exit 1;
 }
 
 # finally deal with too many Rs
 if($percent_r > $r_warning){
-    print 'WARNING - '.$percent_r.'% of slots in R state ('.$stats->{'R'}." slots) - potential slowloris attack! (${percent_free}% = $total_free out of $total_slots slots free)\n";
+    print 'WARNING - '.$percent_r.'% of slots in R state ('.$stats->{'R'}." slots) - potential slowloris attack! (${percent_free}% = $total_free out of $total_slots slots free) ${performance_data}\n";
     exit 1;
 }
 
 # finally, if we got this far, all is well, so return success
-print "OK - ${percent_free}% of slots free ($total_free out of $total_slots) - ${percent_r}% in R state ($stats->{R} slots)\n";
+print "OK - ${percent_free}% of slots free ($total_free out of $total_slots) - ${percent_r}% in R state ($stats->{R} slots) ${performance_data}\n";
 exit 0;
