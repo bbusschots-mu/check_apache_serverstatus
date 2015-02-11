@@ -16,7 +16,7 @@ use Math::Round; # for rounding percentages to 2 decimal places
 my %flags; # a hashref to store the arguments in
 $Getopt::Std::STANDARD_HELP_VERSION = 1;
 sub VERSION_MESSAGE {
-    print "check_apache_serverstatus.pl version 0.1 (released October 2013)\n";
+    print "check_apache_serverstatus.pl version 0.2 (released February 2015)\n";
     return;
 }
 sub HELP_MESSAGE{
@@ -122,8 +122,12 @@ my $total_slots = $stats->{'_'} + $stats->{'S'} + $stats->{'R'} + $stats->{'W'}
 my $total_free = $stats->{'_'} + $stats->{q{.}};
 my $percent_free = nearest(0.01, $total_free/$total_slots * 100);
 my $percent_r    = nearest(0.01, $stats->{'R'}/$total_slots * 100);
+my $req_per_sec = $stats->{'rs'};
+if($req_per_sec =~ m/^[.]/sx){
+	$req_per_sec = '0'.$req_per_sec;
+}
 
-my $performance_data = " | free_slots_percentage=${percent_free}%;${warning};${critical}, r_slots_percentage=${percent_r}%;${r_warning}";
+my $performance_data = " | free_slots=${percent_free}%;${warning};${critical} r_slots=${percent_r}%;${r_warning} requests_per_sec=$req_per_sec";
 
 # first deal with the critical state
 if($percent_free < $critical){
